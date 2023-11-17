@@ -16,10 +16,7 @@ randomized_trial_order = unlist(sapply(randomized_trial, function(x) which(trial
 
 randomized_experimental_plan = experimental_plan[randomized_trial_order, ]
 
-
-
-
-
+randomized_experimental_plan
 
 
 
