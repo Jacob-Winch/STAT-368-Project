@@ -37,8 +37,8 @@ golf_ball_number = as.factor(rep(c(1:3), times = 9, each = 3))
 model = lm(distance~(driver + golf_ball)^2 + 
              (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
 
-leveneTest(distance ~ driver)
-leveneTest(distance ~ golf_ball)
-leveneTest(distance ~ golf_ball_number)
+boxplot(distance ~ driver)
+boxplot(distance ~ golf_ball)
+boxplot(distance ~ golf_ball_number)
 
 

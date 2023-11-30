@@ -28,17 +28,15 @@ distance = c(245, 247, 241,
              260, 266, 264,
              261, 255, 275)
 
+
 driver = as.factor(rep(c("R7", "M5", "Stealth 2 Plus"), each = 27))
 
 golf_ball = as.factor(rep(c("Soft Response", "Tour Response", "TP5"), each = 9, times = 3))
 
 golf_ball_number = as.factor(rep(c(1:3), times = 9, each = 3))
 
-model = lm(distance~(driver + golf_ball)^2 + 
-             (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
+leveneTest(distance~driver)
 
-leveneTest(distance ~ driver)
-leveneTest(distance ~ golf_ball)
-leveneTest(distance ~ golf_ball_number)
+leveneTest(distance~golf_ball)
 
-
+leveneTest(distance~golf_ball_number)

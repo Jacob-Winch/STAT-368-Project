@@ -1,5 +1,3 @@
-library(car)
-
 distance = c(245, 247, 241,
              248, 258, 249,
              247, 232, 240, 
@@ -37,8 +35,4 @@ golf_ball_number = as.factor(rep(c(1:3), times = 9, each = 3))
 model = lm(distance~(driver + golf_ball)^2 + 
              (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
 
-leveneTest(distance ~ driver)
-leveneTest(distance ~ golf_ball)
-leveneTest(distance ~ golf_ball_number)
-
-
+anova(model)

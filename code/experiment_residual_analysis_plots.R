@@ -32,14 +32,8 @@ golf_ball = as.factor(rep(c("Soft Response", "Tour Response", "TP5"), each = 9, 
 
 golf_ball_number = as.factor(rep(c(1:3), times = 9, each = 3))
 
-model = lm(distance ~ (driver + golf_ball + golf_ball_number)^3)
-
-windows() 
-
-par(mfrow=c(1,1))
-
-qqnorm(model$resid, col="blue")
-qqline(model$resid, col = 2)
+model = lm(distance~(driver + golf_ball)^2 + 
+             (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
 
 plot(model$fitted, model$resid, xlab = "Predicted Values", ylab = "Residuals", main = "Residuals vs Predicted Values", col="blue")
 abline(h=0, col = "red")
@@ -52,4 +46,6 @@ abline(h=0, col = "red")
 
 plot(as.numeric(golf_ball_number), model$resid, xlab="Golf Ball Number", ylab = "Residuals", main = "Residuals vs Golf Ball Number", col = "blue")
 abline(h=0, col = "red")
+
+
 
