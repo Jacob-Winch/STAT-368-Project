@@ -32,6 +32,7 @@ golf_ball = as.factor(rep(c("Soft Response", "Tour Response", "TP5"), each = 9, 
 
 golf_ball_number = as.factor(rep(c(1:3), times = 9, each = 3))
 
-model = lm(distance ~ (driver + golf_ball + golf_ball_number)^3)
+model = lm(distance~(driver + golf_ball)^2 + 
+             (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
 
 anova(model)
