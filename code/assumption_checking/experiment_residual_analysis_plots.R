@@ -40,7 +40,7 @@ abline(h=0, col = "red")
 
 plot(as.numeric(driver), model$resid, xlab="Driver", ylab = "Residuals", main = "Residuals vs Driver", col = "blue")
 abline(h=0, col = "red")
-
+ 
 plot(as.numeric(golf_ball), model$resid, xlab="Golf Ball", ylab = "Residuals", main = "Residuals vs Golf Ball", col = "blue")
 abline(h=0, col = "red")
 
