@@ -1,5 +1,6 @@
 library(lmtest)
 library(MASS)
+library(car)
 
 distance = c(245, 247, 241,
              248, 258, 249,
@@ -58,5 +59,4 @@ shapiro.test(transformed_distance)
 # Breusch-Pagan test for constant variance assumption. 
 bptest(model)
 bptest(transformed_model)
-
 

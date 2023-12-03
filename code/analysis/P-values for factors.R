@@ -35,10 +35,18 @@ golf_ball_number = as.factor(rep(c(1:3), times = 9, each = 3))
 model = lm(distance~(driver + golf_ball)^2 + 
              (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
 
+#Box Cox 
+bc = boxcox(model)
+alpha = bc$x[which.max(bc$y)]
 
-anova(model)
+transformed_distance = (distance^(alpha)-1)/alpha
 
-anova_model = anova(model)
+transformed_model = lm(transformed_distance~(driver + golf_ball)^2 + 
+                         (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
+
+anova(transformed_model)
+
+anova_model = anova(transformed_model)
 
 ms = as.vector(anova_model[[3]])
 MS_driver <- ms[1]
