@@ -1,3 +1,8 @@
+library(lmtest)
+library(MASS)
+library(car)
+li
+
 distance = c(245, 247, 241,
              248, 258, 249,
              247, 232, 240, 
@@ -35,6 +40,10 @@ golf_ball_number = as.factor(rep(c(1:3), times = 9, each = 3))
 model = lm(distance~(driver + golf_ball)^2 + 
              (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
 
+leveneTest(distance ~ driver)
+leveneTest(distance ~ golf_ball)
+leveneTest(distance ~ golf_ball_number)
+
 #Box Cox 
 bc = boxcox(model)
 alpha = bc$x[which.max(bc$y)]
@@ -42,5 +51,13 @@ alpha = bc$x[which.max(bc$y)]
 transformed_distance = (distance^(alpha)-1)/alpha
 
 transformed_model = lm(transformed_distance~(driver + golf_ball)^2 + 
-                         (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
-anova(transformed_model)
+             (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
+
+#Shapiro-Wilk test for normality assumption 
+shapiro.test(distance)
+shapiro.test(transformed_distance)
+
+# Breusch-Pagan test for constant variance assumption. 
+bptest(model)
+bptest(transformed_model)
+
