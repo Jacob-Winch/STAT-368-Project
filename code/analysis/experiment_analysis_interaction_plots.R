@@ -46,8 +46,11 @@ transformed_distance = (distance^(alpha)-1)/alpha
 transformed_model = lm(transformed_distance~(driver + golf_ball)^2 + 
                          (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
 
-interaction.plot(driver, golf_ball, transformed_distance, col = c(3,4))
-interaction.plot(golf_ball, golf_ball_number, transformed_distance, col = c(3,4))
-interaction.plot(driver, golf_ball_number, transformed_distance, col = c(3,4))
+
+windows()
+interaction.plot(driver, golf_ball, distance, col = c(3,4),main = "Driver and Golf Ball Interaction", xlab = "Driver", ylab ="Mean of Distance")
+interaction.plot(golf_ball, golf_ball_number, distance, col = c(3,4),main = "Golf Ball and Golf Ball Number Interaction", xlab = "Golf Ball", ylab ="Mean of Distance")
+interaction.plot(driver, golf_ball_number, distance, col = c(3,4),,main = "Driver and Golf Ball Number Interaction", xlab = "Driver", ylab ="Mean of Distance")
+
 
 

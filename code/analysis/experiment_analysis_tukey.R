@@ -1,3 +1,4 @@
+library(MASS)
 distance = c(245, 247, 241,
              248, 258, 249,
              247, 232, 240, 
@@ -36,18 +37,12 @@ data <- data.frame(distance, driver, golf_ball, golf_ball_number)
 
 model = lm(distance~(driver + golf_ball)^2 + 
              (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
-#Box Cox 
-bc = boxcox(model)
-alpha = bc$x[which.max(bc$y)]
 
-transformed_distance = (distance^(alpha)-1)/alpha
 
-transformed_model = lm(transformed_distance~(driver + golf_ball)^2 + 
-                         (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
 
-anova(transformed_model)
+anova(model)
 
-anova_model = anova(transformed_model)
+anova_model = anova(model)
 
 ms = as.vector(anova_model[[3]])
 MS_driver <- ms[1]
@@ -77,25 +72,29 @@ p_driver_golf_ball = 1-pf(F_driver_golf_ball, df_driver_golf_ball, df_driver_gol
 p_golf_ball_golf_ball_number = 1-pf(F_golf_ball_golf_ball_number, df_golf_ball_golf_ball_number, df_E)
 p_golf_driver_ball_golf_ball_number = 1-pf(F_driver_golf_ball_golf_ball_number, df_driver_golf_ball_golf_ball_number, df_E)
 
-driver_low_mean <- mean(transformed_distance[driver=="R7"])
-driver_med_mean <- mean(transformed_distance[driver=="M5"])
-driver_high_mean <- mean(transformed_distance[driver=="Stealth 2 Plus"])
+driver_low_mean <- mean(distance[driver=="R7"])
+driver_med_mean <- mean(distance[driver=="M5"])
+driver_high_mean <- mean(distance[driver=="Stealth 2 Plus"])
 
 SE <- qtukey(.95,3,df_driver_golf_ball_golf_ball_number)*sqrt(MS_driver_golf_ball_golf_ball_number/27)
+
 cat("A 95% Confidence Interval for the difference in mean
     distance between Stealth 2 Plus and R7 is (", 
     (driver_high_mean - driver_low_mean) - SE,",", 
     (driver_high_mean - driver_low_mean) + SE,")","\n")
 
-SE <- qtukey(.95,3,df_driver_golf_ball_golf_ball_number)*sqrt(MS_driver_golf_ball_golf_ball_number/27)
+
 cat("A 95% Confidence Interval for the difference in mean
     distance between Stealth 2 Plus and M5 is (", 
     (driver_high_mean - driver_med_mean) - SE,",", 
     (driver_high_mean - driver_med_mean) + SE,")","\n")
 
-SE <- qtukey(.95,3,df_driver_golf_ball_golf_ball_number)*sqrt(MS_driver_golf_ball_golf_ball_number/27)
+
 cat("A 95% Confidence Interval for the difference in mean
     distance between M5 and R7 is (", 
     (driver_med_mean - driver_low_mean) - SE,",", 
     (driver_med_mean - driver_low_mean) + SE,")","\n")
 
+
+
+  

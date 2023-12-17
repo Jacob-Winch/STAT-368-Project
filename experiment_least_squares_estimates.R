@@ -1,4 +1,4 @@
-
+library(MASS)
 distance = c(245, 247, 241,
              248, 258, 249,
              247, 232, 240, 
@@ -33,23 +33,25 @@ golf_ball = as.factor(rep(c("Soft Response", "Tour Response", "TP5"), each = 9, 
 
 golf_ball_number = as.factor(rep(c(1:3), times = 9, each = 3))
 
-model = lm(distance~(driver + golf_ball)^2 + 
-             (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
 
+bc = boxcox(model)
+alpha = bc$x[which.max(bc$y)]
 
+transformed_distance = (distance^(alpha)-1)/alpha
+
+mean = mean(transformed_distance)
 #ls just stands for least sqaures 
-driver_low_ls <- mean(distance[driver=="R7"]) - mean
-driver_med_ls <- mean(distance[driver=="M5"]) - mean
-driver_high_ls <- mean(distance[driver=="Stealth 2 Plus"]) - mean
+driver_low_ls <- (mean(transformed_distance[driver=="R7"])*alpha+1)^(1/alpha) - (mean*alpha+1)^(1/alpha)
+driver_med_ls <- (mean(transformed_distance[driver=="M5"])*alpha+1)^(1/alpha) - (mean*alpha+1)^(1/alpha)
+driver_high_ls <- ((mean(transformed_distance[driver=="Stealth 2 Plus"])*alpha+1)^(1/alpha) - (mean*alpha+1)^(1/alpha))
 
-mean = mean(distance)
-ball_low_ls <- mean(distance[golf_ball=="Soft Response"]) - mean
-ball_med_ls <- mean(distance[golf_ball=="Tour Response"]) - mean
-ball_high_ls <- mean(distance[golf_ball=="TP5"]) - mean
+ball_low_ls <- ((mean(transformed_distance[golf_ball=="Soft Response"])*alpha+1)^(1/alpha) - (mean*alpha+1)^(1/alpha))
+ball_med_ls <- ((mean(transformed_distance[golf_ball=="Tour Response"])*alpha+1)^(1/alpha) - (mean*alpha+1)^(1/alpha))
+ball_high_ls <- ((mean(transformed_distance[golf_ball=="TP5"])*alpha+1)^(1/alpha) - (mean*alpha+1)^(1/alpha))
 
-batch_one_ls <- mean(distance[golf_ball_number==1]) - mean
-batch_two_ls <- mean(distance[golf_ball_number==2]) - mean
-batch_three_ls <- mean(distance[golf_ball_number==3]) - mean
+batch_one_ls <- ((mean(transformed_distance[golf_ball_number==1])*alpha+1)^(1/alpha) - (mean*alpha+1)^(1/alpha))
+batch_two_ls <- ((mean(transformed_distance[golf_ball_number==2])*alpha+1)^(1/alpha) - (mean*alpha+1)^(1/alpha))
+batch_three_ls <- ((mean(transformed_distance[golf_ball_number==3])*alpha+1)^(1/alpha) - (mean*alpha+1)^(1/alpha))
 
 
 

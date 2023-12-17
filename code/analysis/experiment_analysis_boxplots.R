@@ -44,10 +44,13 @@ alpha = bc$x[which.max(bc$y)]
 transformed_distance = (distance^(alpha)-1)/alpha
 
 transformed_model = lm(transformed_distance~(driver + golf_ball)^2 + 
-                         (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
+                  
+                               (golf_ball_number + driver*golf_ball_number)%in%golf_ball)
 
-boxplot(distance ~ driver)
-boxplot(distance ~ golf_ball)
-boxplot(distance ~ golf_ball_number)
+windows()
+par(mfrow=c(1,3))
+boxplot(distance ~ driver, main = "Distance vs Driver", xlab = "Driver", ylab ="Distance")
+boxplot(distance ~ golf_ball, main = "Distance vs Golf Ball",xlab = "Golf Ball", ylab ="Distance")
+boxplot(distance ~ golf_ball_number, main = "Distance vs Golf Ball Number",xlab = "Golf Ball Number", ylab ="Distance")
 
 

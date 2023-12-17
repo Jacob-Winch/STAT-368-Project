@@ -1,3 +1,4 @@
+library(MASS)
 distance = c(245, 247, 241,
              248, 258, 249,
              247, 232, 240, 
@@ -75,5 +76,4 @@ p_golf_ball = 1-pf(F_golf_ball, df_golf_ball, df_golf_ball_golf_ball_number)
 p_driver_golf_ball = 1-pf(F_driver_golf_ball, df_driver_golf_ball, df_driver_golf_ball_golf_ball_number)
 p_golf_ball_golf_ball_number = 1-pf(F_golf_ball_golf_ball_number, df_golf_ball_golf_ball_number, df_E)
 p_golf_driver_ball_golf_ball_number = 1-pf(F_driver_golf_ball_golf_ball_number, df_driver_golf_ball_golf_ball_number, df_E)
-
 
